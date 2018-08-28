@@ -11,16 +11,17 @@
     "scroll"
   ],
   "dependencies": {
-    "vue": "^2.5.2",
     {{#router}}
     "vue-router": "^3.0.1",
     {{/router}}
-    {{#vuex}}    
+    {{#vuex}}
     "vuex": "^3.0.1",
     {{/vuex}}
     {{#mock}}    
-    "mockjs": "^1.0.1-beta3"
-    {{/mock}}    
+    "mockjs": "^1.0.1-beta3",
+    {{/mock}}
+    "fetch-ie8": "^1.5.0",
+    "vue": "^2.5.2"    
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

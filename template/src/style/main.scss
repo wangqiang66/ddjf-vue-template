@@ -1,0 +1,46 @@
+/**
+ * 通用的样式文件，一般之定义基本通用的样式，各个项目通用
+ */
+
+ .row {
+   display: flex;
+   flex-direction: row;
+ }
+
+ .column {
+   display: flex;
+   flex-direction: column;
+ }
+
+ .flex-middle {
+   align-items: center
+ }
+
+ .flex-end {
+   align-items: flex-end
+ }
+
+ .flex-stretch {
+   align-items: stretch
+ }
+
+ .flex-center {
+   justify-content: center;
+ }
+
+ .flex-right {
+   justify-content: flex-end;
+ }
+
+ .flex-between {
+   justify-content: space-between;
+ }
+
+ @mixin setFlex($len: 24) {
+  @for $i from 1 through  $len {
+    ".flex#{$i}" {
+      flex: $i
+    }
+  }
+}
+@include setFlex();

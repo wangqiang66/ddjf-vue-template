@@ -1,0 +1,32 @@
+/**
+ * 定义一些常用的变量
+ */
+/*******           font        *********/
+$font_normal: 30px;
+$font_arcticle: 28px;
+$font_enclosure: 26px;
+$font_enclosure_big: 28px;
+$font_enclosure_small: 24px;
+$font_btn: 36px;
+$font_success_tip: 40px;
+$font_procotol: 22px;
+/*******       font  --end     *********/
+
+/*******          color        *********/
+$color_font: #353535;                                 // 通常字体颜色
+$color_font_bold: #000000;                            // 文字需要加粗时颜色
+$color_font_placeholder: #B2B2B2;                     // 输入框placeholder字体颜色
+$color_enclosure: #B2B2B2;                            // 文字附件颜色，一般和placeholder颜色一致
+$color_btn_border: #888888;                           // 默认按钮的边框颜色
+$color_btn_bright_bg: #1AAD19;                        // 按钮高亮的背景颜色
+$color_btn_bright_border: #179E16;                    // 按钮高亮的边框颜色
+$color_btn_active_bg: rgba(255,180,4,0.10);           // 选择框按钮的选择背景颜色
+$color_btn_active_border: #FFB404;                    // 选择框按钮的选中的边框颜色
+$color_bright_disable: #71C170;                       // 高亮按钮的禁用颜色
+/*******      color  --end     *********/
+
+/*******           gap         *********/
+$gap_normal: 30px;                                       // 常用的间距
+$gap_input_pad: 8px;                                     // 输入框相对左右的间距
+$gap_span_icon: 10px;                                    // 文字相对图标的间距
+/*******       gap  --end      *********/
