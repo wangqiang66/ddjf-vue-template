@@ -4,8 +4,11 @@
   "description": "{{ description }}",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
     "test": "jest  --watchAll --coverage ",
-    "example": "vue init webpack examples"
+    "example": "vue init webpack examples",
+    "build": "node build/build.js"
   },
   "keywords": [
     "scroll"
@@ -66,10 +69,8 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0",
-    {{#if_or sass scss}}
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
-    {{/if_or}}
     {{#test}}
     "babel-jest": "^21.0.2",
     "babel-plugin-dynamic-import-node": "^1.2.0",
