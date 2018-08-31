@@ -55,8 +55,8 @@ module.exports = {
   },
   filters: {
     'test/**/*': 'test',
-    'store/**/*': 'vuex',
-    'route/**/*': 'router'
+    'src/store/*.*': 'vuex',
+    'src/route/*.*': 'router'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
