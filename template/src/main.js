@@ -7,6 +7,9 @@ import './css/main.scss'
 {{#router}}
 import router form './route'
 {{/router}}
+{{#vuex}}
+import store form './store'
+{{/vuex}}
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
@@ -14,6 +17,9 @@ new Vue({
   {{#router}}
   router,
   {{/router}}
+  {{#vuex}}
+  store,
+  {{/vuex}}
   components: { App },
   template: '<App/>'
 })
