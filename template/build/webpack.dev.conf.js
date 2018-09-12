@@ -51,7 +51,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     }
   },
-  {{/unless mpvue}}
+  {{/unless}}
   plugins: [
     new webpack.DefinePlugin({
       'process.env': config.dev.env

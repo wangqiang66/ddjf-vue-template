@@ -113,17 +113,10 @@ module.exports = {
         }
       }
     ]
-  },{{#mpvue}
+  },{{#mpvue}}
   plugins: [
     new MpvuePlugin(),
-    new MpvueEntry(),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: path.resolve(__dirname, '../dist/static'),
-        ignore: ['.*']
-      }
-    ])
+    new MpvueEntry()
   ],{{/mpvue}}
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
