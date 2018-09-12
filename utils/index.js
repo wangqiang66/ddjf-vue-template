@@ -14,10 +14,9 @@ exports.sortDependencies = function sortDependencies(data) {
     data.inPlace ? '' : data.destDirName,
     'package.json'
   )
-  console.log(packageJsonFile)
   const packageJson = JSON.parse(fs.readFileSync(packageJsonFile))
-  packageJson.devDependencies = sortObject(packageJson.devDependencies||{})
-  packageJson.dependencies = sortObject(packageJson.dependencies||{})
+  packageJson.devDependencies = sortObject(packageJson.devDependencies)
+  packageJson.dependencies = sortObject(packageJson.dependencies)
   fs.writeFileSync(packageJsonFile, JSON.stringify(packageJson, null, 2) + '\n')
 }
 
@@ -28,7 +27,7 @@ exports.sortDependencies = function sortDependencies(data) {
  */
 exports.installDependencies = function installDependencies(
   cwd,
-  executable = 'npm',
+  executable = 'cnpm',
   color
 ) {
   console.log(`\n\n# ${color('Installing project dependencies ...')}`)
@@ -76,10 +75,10 @@ To get started:
   ${yellow(
     `${data.inPlace ? '' : `cd ${data.destDirName}\n  `}${installMsg(
       data
-    )}${lintMsg(data)}npm run example (create a vue example for you can write component examples)`
+    )}${lintMsg(data)}npm run dev`
   )}
   
-Documentation can be found to run pnpm init -h
+Documentation can be found at https://vuejs-templates.github.io/webpack
 `
   console.log(message)
 }

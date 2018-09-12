@@ -1,0 +1,62 @@
+@import './sass-rem.scss';
+
+$rem-baseline: 100px;
+
+// 全局样式
+$vi: #02B3B4;
+$screen_width: rem(375px);
+$font_size: rem(15px);
+
+// 布局相关
+$cell_height: rem(45px);
+$cell_width: rem(375px);
+
+//label 字体
+$cell_fontSize: rem(15px);
+$cell_color: #353535;
+$cell_fontFamily: '微软雅黑';
+$cell_padding: 0 rem(15px) 0 rem(15px);
+$cell_border: rem(1px) solid #E5E5E5; //底线样式
+
+//面板
+$panel_width: rem(375px);
+$panel_padding: 0 0 0 0;
+
+// 表格相关
+//表头
+$table_header_background: #F5F6F9;
+$table_header_color: #677475;
+$table_header_height: rem(45px);
+$table_header_font-size: rem(20px);
+//表行
+$table_row_height: rem(50px);
+$table_row_iter-color: #FBFBFB;
+$table_row_line-height: rem(50px);
+//表格
+$table_cell_color: #2c3e50;
+$table_cell_font-size: rem(20px);
+$table_cell_line-height: rem(45px);
+//操作按钮
+$table_operation-btn-font-size: rem(15px);
+$table_operation-btn-width: rem(60px);
+$table_operation-btn-height: rem(25px);
+
+// 表单相关
+$input_border: none;
+$input_focus_border: none;
+$input_height: rem(42px);
+$input_font-size: $font_size;
+$input_color: #000000;
+
+// 辅助样式类
+
+.fl{
+    float: left;
+    clear: both;
+}
+
+.fr{
+    float: right;
+    clear: both;
+}
+

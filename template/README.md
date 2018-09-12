@@ -1,38 +1,36 @@
-## 滑动处理
+# {{ name }}
 
-### 使用方式
+> {{ description }}
 
-#### 描述
-  
- @ddjf/{{ name }} 用于处理{{ description }}
+## Build Setup
 
-#### 安装 cnpm 依赖
+``` bash
+# install dependencies
+npm install
 
-```cnpm install @ddjf/{{ name }} --save-dev```
+# serve with hot reload at localhost:8080
+npm run dev
 
-#### 代码引入
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+{{#unit}}
+
+# run unit tests
+npm run unit
+{{/unit}}
+{{#e2e}}
+
+# run e2e tests
+npm run e2e
+{{/e2e}}
+{{#if_or unit e2e}}
+
+# run all tests
+npm test
+{{/if_or}}
 ```
 
-```
-
-
-### 属性说明
-
-|属性名|类型|属性值|默认值|
-|:---:|:---:|:---:|:---:|
-
-### 事件
-|事件名|参数|说明|
-|:---:|:---:|:---:|
-
-### 其他
-
-
-### 版本兼容
-
-
-
-
-
-
-
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -1,25 +1,24 @@
-/**
- * function: store index 文件 用于汇总vuex store
- * author  : wq
- * update  : 2018/8/13 18:15
- */
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import axios from 'axios'
 
-Vue.used(vuex)
+Vue.use(Vuex)
 
 const store = {
+  modules: {},
   state: {
-
+    userInfo: {}
   },
+  getters: {},
   mutations: {
-
+    SET_USER_INFO (state, data) {
+      state.userInfo = data
+    }
   },
   actions: {
-
-  },
-  getters: {
-    
+    async login ({mutations}, {userName, password}) {
+      // add login code
+    }
   }
 }
 

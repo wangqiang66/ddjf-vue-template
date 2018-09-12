@@ -1,5 +1,9 @@
-const appConfig = {
-  debug: true
-}
+/**
+ * function: index
+ * author  : wq
+ * update  : 2018/9/5 9:54
+ */
 
-export default appConfig
+const AppConfig = {
+  debug: false
+}

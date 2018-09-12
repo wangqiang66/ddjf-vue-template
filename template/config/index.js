@@ -1,61 +1,58 @@
 'use strict'
-// Template version: 1.3.1
+// Template version: {{ template_version }}
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const ip = require('quick-local-ip').getLocalIP4();
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    env: require('./dev.env'),
+    // webpack-dev-server 相关配置
+    {{#if_not mpvue}}
     proxyTable: {},
-
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    host: ip || 'localhost', // can be overwritten by process.env.HOST
+    port: 8085, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
-    // Use Eslint Loader?
+    {{/if_not}}
+    {{#lint}}// Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: false,
+    useEslint: true,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,
-
+    {{/lint}}
     /**
      * Source Maps
      */
-
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-module-eval-source-map',
-
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
-
-    cssSourceMap: true
+    cssSourceMap: {{#mpvue}}false{{else}}true{{/mpvue}}
   },
 
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
-
+    env: require('./prod.env'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
     /**
      * Source Maps
      */
-
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',

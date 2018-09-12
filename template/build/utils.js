@@ -1,8 +1,8 @@
 'use strict'
 const path = require('path')
 const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const packageConfig = require('../package.json')
+const ExtractTextPlugin = require('extract-text-webpack-plugin'){{#unless mpvue}}
+const packageConfig = require('../package.json') {{/unless}}
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -18,6 +18,7 @@ exports.cssLoaders = function (options) {
   const cssLoader = {
     loader: 'css-loader',
     options: {
+      minimize: process.env.NODE_ENV === 'production',
       sourceMap: options.sourceMap
     }
   }
@@ -29,9 +30,28 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  const px2rpxLoader = {
+    loader: 'px2rpx-loader',
+    options: {
+      baseDpr: 1,
+      rpxUnit: 0.5
+    }
+  }
+
+  const scssResLoader = {
+    loader: 'sass-resources-loader',
+    options: {
+      resources: [resloveRource('ddui.scss'), resloveRource('sass-rem.scss')]
+    }
+  }
+
+  function resloveRource (name) {
+    return path.resolve(__dirname, '../src/assets/styles/' + name)
+  }
+
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
+    const loaders = {{#if mpvue}}[cssLoader, px2rpxLoader, postcssLoader] {{else}}options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]{{/if}}
 
     if (loader) {
       loaders.push({
@@ -40,6 +60,10 @@ exports.cssLoaders = function (options) {
           sourceMap: options.sourceMap
         })
       })
+    }
+
+    if (loader === 'scss' || loader === 'sass') {
+      loaders.push(scssResLoader)
     }
 
     // Extract CSS when that option is specified
@@ -56,7 +80,8 @@ exports.cssLoaders = function (options) {
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
-    css: generateLoaders(),
+    css: generateLoaders(),{{#mpvue}}
+    wxss: generateLoaders(),{{/mpvue}}
     postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
@@ -82,6 +107,7 @@ exports.styleLoaders = function (options) {
   return output
 }
 
+{{#unless mpvue}}
 exports.createNotifierCallback = () => {
   const notifier = require('node-notifier')
 
@@ -99,3 +125,4 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+{{/unless}}

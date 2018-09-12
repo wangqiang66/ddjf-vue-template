@@ -6,20 +6,27 @@ const merge = require('webpack-merge')
 const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'){{#mpvue}}
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const hardDisk = require('webpack-dev-middleware-hard-disk'){{else}}
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
-
+{{/mpvue}}
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({
+      sourceMap: config.dev.cssSourceMap,{{#mpvue}}
+      extract: true,{{/mpvue}}
+      usePostCSS: true
+    })
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
-
+  {{#unless mpvue}}
   // these devServer options should be customized in /config/index.js
   devServer: {
     clientLogLevel: 'warning',
@@ -44,19 +51,51 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     }
   },
+  {{/unless mpvue}}
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': config.dev.env
     }),
+    {{#mpvue}}
+    // copy from ./webpack.prod.conf.js
+    // extract css into its own file
+    new ExtractTextPlugin({
+      filename: utils.assetsPath('[name].wxss')
+    }),
+    // Compress extracted CSS. We are using this plugin so that possible
+    // duplicated CSS from different components can be deduped.
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        safe: true
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common/vendor',
+      minChunks: function (module, count) {
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf('node_modules') >= 0
+        ) || count > 1
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common/manifest',
+      chunks: ['common/vendor']
+    }),
+    new FriendlyErrorsPlugin(),
+    {{else}}
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
       inject: true
     }),
+    {{/mpvue}}
+    new webpack.NoEmitOnErrorsPlugin(),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -67,7 +106,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+{{#mpvue}}
+  const compiler = webpack(webpackConfig)
+  module.exports = hardDisk(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+    quiet: true
+  })
+{{else}}
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
   portfinder.getPort((err, port) => {
@@ -93,3 +138,4 @@ module.exports = new Promise((resolve, reject) => {
     }
   })
 })
+{{/mpvue}}

@@ -1,0 +1,31 @@
+
+@import 'ddui.scss';
+
+$screens : 1920,1366,1024,960,823,812,800,768,760,736,731,720,680,667,640,600,568,560,520,480,440,414,400,375,360,320;
+@each $i in $screens{
+    @media screen and (max-width: #{$i}px) {
+        html {
+            font-size: ($i/375*100)+px;
+        }
+    }
+}
+
+.fl{
+  float: left;
+}
+
+.fr{
+  float: right;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &.row{
+    flex-direction: row;
+  }
+  &.column{
+    flex-direction: column;
+  }
+}
