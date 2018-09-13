@@ -21,7 +21,11 @@
     "lint": "eslint --ext .js,.vue src{{#runner}} test/unit{{/runner}}{{#e2e}} test/e2e/specs{{/e2e}}",
     {{/lint}}
     "build": "node build/build.js",
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    {{#mpvue}}
+    "dev": "node build/dev-server.js",
+    {{else}}
+    "dev": "webpack-dev-server --inline --progress --config build/dev-server.js",
+    {{/mpvue}}
     "start": "npm run dev"
   },
   "dependencies": {
@@ -39,7 +43,7 @@
     {{#mpvue}}
     "mpvue": "^1.0.13",
     {{else}}
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
     {{/mpvue}}
     "@ddjf/ddui":"^1.0.1",
     "@ddjf/mpweui": "^1.0.0",
@@ -48,7 +52,6 @@
     "@ddjf/weui": "^1.0.0",
     {{/if_not}}
     "flyio": "^0.6.0",
-    "vue": "^2.5.2",
     "babel-polyfill": "^6.26.0"
   },
   "devDependencies": {
@@ -117,8 +120,8 @@
     "chalk": "^2.4.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
-    {{#if_not mpvue}}
     "extract-text-webpack-plugin": "^3.0.0",
+    {{#if_not mpvue}}
     "html-webpack-plugin": "^2.30.1",
     "webpack-dev-server": "^2.9.1",
     "vue-loader": "^13.3.0",

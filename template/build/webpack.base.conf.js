@@ -3,7 +3,6 @@ const path = require('path')
 {{#mpvue}}
 const MpvuePlugin = require('webpack-mpvue-asset-plugin')
 const MpvueEntry = require('mpvue-entry')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 {{/mpvue}}
 const utils = require('./utils')
 const config = require('../config')
@@ -14,8 +13,8 @@ function resolve (dir) {
 }
 {{#mpvue}}
 const entry = MpvueEntry.getEntry({
-  pages: './src/router/routes.js',
-  app: './src/app.json',
+  pages: './src/entry/mpvue/mpvue.js',
+  app: './src/entry/mpvue/app.json',
 })
 const vueLoader = 'mpvue-loader'
 {{else}}
@@ -49,10 +48,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
+      wx: resolve('src/service/wx'),
       '@': resolve('src'),{{#mpvue}}
       vue: 'mpvue',
       flyio: 'flyio/dist/npm/wx',
-      wx: resolve('src/utils/wx'),
       {{else}}
       'vue$': 'vue/dist/vue.esm.js',
       flyio: 'flyio/dist/npm/fly',

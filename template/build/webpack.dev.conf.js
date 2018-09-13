@@ -9,14 +9,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'){{#mpvue}}
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const hardDisk = require('webpack-dev-middleware-hard-disk'){{else}}
+{{else}}
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const portfinder = require('portfinder')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 {{/mpvue}}
-const devWebpackConfig = merge(baseWebpackConfig, {
+
+module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.dev.cssSourceMap,{{#mpvue}}
@@ -100,42 +100,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: config.dev.assetsSubDirectory,
+        to: 'static',
         ignore: ['.*']
       }
     ])
   ]
 })
-{{#mpvue}}
-  const compiler = webpack(webpackConfig)
-  module.exports = hardDisk(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    quiet: true
-  })
-{{else}}
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
-
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
-        },
-        onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
-      }))
-
-      resolve(devWebpackConfig)
-    }
-  })
-})
-{{/mpvue}}

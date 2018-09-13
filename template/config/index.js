@@ -8,7 +8,7 @@ const ip = require('quick-local-ip').getLocalIP4();
 module.exports = {
   dev: {
     // Paths
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: {{#mpvue}}''{{else}}'static'{{/mpvue}},
     assetsPublicPath: '/',
     env: require('./dev.env'),
     // webpack-dev-server 相关配置
@@ -34,7 +34,7 @@ module.exports = {
      * Source Maps
      */
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-module-eval-source-map',
+    devtool: '#cheap-module-eval-source-map',
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
@@ -48,7 +48,7 @@ module.exports = {
     env: require('./prod.env'),
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: {{#mpvue}}''{{else}}'static'{{/mpvue}},
     assetsPublicPath: '/',
     /**
      * Source Maps
