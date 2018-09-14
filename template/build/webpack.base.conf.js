@@ -39,8 +39,8 @@ module.exports = {
   target: require('mpvue-webpack-target'),{{/mpvue}}
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
-    chunkFilename: utils.assetsPath('[id].js'),
+    filename: {{#mpvue}}'[name].js'{{else}}'[name].[chunkhash].js'{{/mpvue}},
+    chunkFilename: utils.assetsPath('[name].[chunkhash].js'),
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath

@@ -3,68 +3,47 @@
  * author  : wq
  * update  : 2018/9/5 9:29
  */
-import request from './request'
-import xml2json from 'xmlstring2json'
-const baseUrlApi = 'https://api.ithome.com'
+import wx from 'wx'
+import Fly from 'flyio'
 
-function formatNumber (n) {
-  const str = n.toString()
-  return str[1] ? str : `0${str}`
-}
+const request = new Fly()
 
-export function formatTime (date) {
-  date = new Date(date)
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
+request.interceptors.request.use((request) => {
+  if (!request.noLoading) {
+    wx.showNavigationBarLoading()
+  }
+  return request
+})
 
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  const t1 = [year, month, day].map(formatNumber).join('/')
-  const t2 = [hour, minute, second].map(formatNumber).join(':')
-
-  return `${t1} ${t2}`
-}
-
-const api = {
-  getSlides: () => request.get('/xml/slide/slide.xml', null, {
-    baseURL: baseUrlApi
-  }).then(data => {
-    if (!data) {
-      return []
+request.interceptors.response.use(
+  (response, promise) => {
+    if (!response.request.noLoading) {
+      wx.hideNavigationBarLoading()
     }
-    const parsedSlides = xml2json(data).rss.channel.item
-    return parsedSlides.filter(
-      slide => slide.opentype['#text'] === '1'
-    ).map(slide => {
-      const title = slide.title['#text']
-      const image = slide.image['#text']
-      const link = slide.link['#text']
-      return {
-        title,
-        image,
-        link: `/pages/news/detail?id=${link}&title=${title}`
+    const data = response.data || {}
+    if (data.retCode !== '1') {
+      if (!response.request.defineError) {
+        wx.showToast({
+          title: data.retMsg,
+          icon: 'none'
+        })
       }
-    })
-  }),
-  getNewsList: (r) => request.get('/json/newslist/news', null, {
-    baseURL: baseUrlApi
-  }).then(data => {
-    if (!data) {
-      return []
+      return promise.reject(data)
     }
-    return data.newslist.map(item => ({
-      id: item.newsid,
-      title: item.title,
-      postdate: formatTime(item.postdate),
-      commentcount: item.commentcount,
-      lapinid: item.lapinid,
-      image: item.image,
-      link: `/pages/news/detail?id=${item.newsid}&title=${item.title}`
-    }))
-  })
-}
+    return promise.resolve(data)
+  },
+  (err, promise) => {
+    if (!err.request.noLoading) {
+      wx.hideNavigationBarLoading()
+    }
+    if (!err.request.defineError) {
+      wx.showToast({
+        title: err.message,
+        icon: 'none'
+      })
+    }
+    promise.reject()
+  }
+)
 
-export default api
+export default request

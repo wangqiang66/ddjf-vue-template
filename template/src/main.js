@@ -14,31 +14,39 @@ import MpvueRouterPatch from 'mpvue-router-patch'
 import router from './router'
 {{/if_not}}
 {{/router}}
+{{#unless mpvue}}
 import weui from 'weui.js'
 import { DWeuiPlugin } from '@ddjf/ddui'
+{{/unless}}
 
 Vue.config.productionTip = false
 {{#if_and router mpvue}}
 Vue.use(MpvueRouterPatch)
 {{/if_and}}
-Vue.use(DWeuiPlugin, { weui })
-
+{{#unless mpvue}}
+Vue.use(
+  DWeuiPlugin,
+  { weui }
+)
+{{/unless}}
 /* eslint-disable no-new */
 {{#if_not mpvue}}
 new Vue({
-  el: '#app',{{#vuex}}
+  el: '#app',
+  {{#vuex}}
   store,
-  {{/vuex}}{{#router}}
-    router,
-   {{/router}}components: { App },
-   template: '<App/>'
+  {{/vuex}}
+  {{#router}}
+  router,
+  {{/router}}components: { App },
+  template: '<App/>'
 })
 {{/if_not}}
 
 {{#mpvue}}
-  const app = new Vue({
-  {{#vuex}}store,{{/vuex}}
-    ...App
-  })
-  app.$mount()
+const app = new Vue({
+{{#vuex}}store,{{/vuex}}
+  ...App
+})
+app.$mount()
 {{/mpvue}}
